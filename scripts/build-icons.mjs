@@ -56,20 +56,36 @@ try {
   // Not fatal. The page shows "unknown" for the version.
 }
 
-const icons = all
-  .map((def) => {
-    // Destructured deliberately. `aliases` and `unicode` are used, the width,
-    // height, and path data are not. See the note at the top of this file.
-    const [, , aliases, unicode] = def.icon;
+// The `all` array contains one entry per exported name, not per icon. Aliases
+// ship as separate exports that carry the same prefix and iconName as the
+// canonical icon, so `xmark` also arrives as close, remove, times, and multiply.
+// Key by prefix + name to collapse them, and keep the alias names for search.
+const byKey = new Map();
 
-    return {
-      p: def.prefix,
-      n: def.iconName,
-      a: (aliases ?? []).filter((entry) => typeof entry === 'string'),
-      u: unicode,
-    };
-  })
-  .sort((a, b) => a.n.localeCompare(b.n) || a.p.localeCompare(b.p));
+for (const def of all) {
+  // Destructured deliberately. `aliases` and `unicode` are used. The width,
+  // height, and path data are not. See the note at the top of this file.
+  const [, , aliases, unicode] = def.icon;
+
+  const key = `${def.prefix}:${def.iconName}`;
+  const names = (aliases ?? []).filter((entry) => typeof entry === 'string');
+  const existing = byKey.get(key);
+
+  if (existing) {
+    for (const name of names) {
+      if (!existing.a.includes(name)) existing.a.push(name);
+    }
+    continue;
+  }
+
+  byKey.set(key, { p: def.prefix, n: def.iconName, a: names, u: unicode });
+}
+
+const icons = [...byKey.values()].sort(
+  (a, b) => a.n.localeCompare(b.n) || a.p.localeCompare(b.p)
+);
+
+const collapsed = all.length - icons.length;
 
 const byPrefix = {};
 for (const icon of icons) {
@@ -91,6 +107,6 @@ await writeFile('site/icons.json', JSON.stringify(payload));
 const sizeKb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(1);
 console.log('Wrote site/icons.json');
 console.log(`  kit package version: ${kitVersion}`);
-console.log(`  icons: ${icons.length}`);
+console.log(`  icons: ${icons.length} (from ${all.length} exports, ${collapsed} aliases merged)`);
 console.log(`  styles: ${Object.entries(byPrefix).map(([k, v]) => `${k}=${v}`).join(' ')}`);
 console.log(`  size: ${sizeKb} KB (names only, no artwork)`);
