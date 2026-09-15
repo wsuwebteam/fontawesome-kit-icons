@@ -1,0 +1,663 @@
+<!doctype html>
+<!--
+  site/index.html
+
+  Font Awesome kit reference, styled to WSU brand.
+  Reads icons.json, regenerated daily by GitHub Actions. No build step.
+
+  Icons render through the WSU kit script on the Font Awesome CDN, loaded from
+  the kit code in icons.json. No icon artwork is stored in this repository.
+  The kit's Allowed Domains list must include the host this page is served from,
+  or nothing will render.
+
+  Color and contrast notes (ratios measured against the background each sits on):
+    Crimson  #A60F2D on white  7.70:1   passes AA and AAA for text
+    Gray     #4D4D4D on white  8.45:1   passes AA and AAA for text
+    Muted    #6B6B6B on white  5.33:1   passes AA for text
+    Border   #8E8E8E on white  3.28:1   passes AA non-text (1.4.11), used on every control
+    Divider  #D4D4D4                    decorative only, never the sole marker of a control
+
+  Per WSU web guidance, crimson does the structural work (borders, focus, active
+  controls) rather than coloring heading text. Headings are gray.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Font Awesome Kit Icons | WSU</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://kit.fontawesome.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --crimson: #A60F2D;
+    --crimson-dark: #7E0B22;
+    --gray: #4D4D4D;
+    --muted: #6B6B6B;
+    --white: #FFFFFF;
+    --tint: #F2F2F2;
+    --wash: #FBF0F2;
+    --border: #8E8E8E;
+    --divider: #D4D4D4;
+
+    --font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 72px;
+    background: var(--white);
+    color: var(--gray);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .wrap { max-width: 1160px; margin: 0 auto; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Header ---------------------------------------------------------------- */
+
+  .masthead { padding-bottom: 20px; border-bottom: 4px solid var(--crimson); }
+
+  h1 {
+    margin: 0 0 10px;
+    color: var(--gray);
+    font-size: 30px;
+    line-height: 38px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  .lede { max-width: 640px; margin: 0; font-size: 16px; line-height: 26px; }
+
+  .meta { margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 20px; }
+
+  /* Toolbar --------------------------------------------------------------- */
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 18px 0 16px;
+    background: var(--white);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .field { max-width: 440px; }
+
+  .field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+
+  .search {
+    width: 100%;
+    padding: 11px 13px;
+    background: var(--white);
+    color: var(--gray);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .search::placeholder { color: var(--muted); }
+  .search:focus-visible { outline: 3px solid var(--crimson); outline-offset: 1px; }
+
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+  .row-label { margin-right: 2px; font-size: 14px; font-weight: 600; }
+
+  .chip {
+    min-height: 32px;
+    padding: 6px 13px;
+    background: var(--white);
+    color: var(--gray);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    cursor: pointer;
+  }
+  .chip:hover { background: var(--tint); border-color: var(--gray); }
+  .chip[aria-pressed="true"] {
+    background: var(--crimson);
+    color: var(--white);
+    border-color: var(--crimson);
+  }
+  .chip[aria-pressed="true"]:hover { background: var(--crimson-dark); border-color: var(--crimson-dark); }
+  .chip:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
+
+  .count { margin: 16px 0 0; font-size: 14px; line-height: 20px; }
+
+  /* Icon groups ----------------------------------------------------------- */
+
+  .group { margin-top: 36px; }
+
+  .group h2 {
+    margin: 0;
+    padding-bottom: 8px;
+    color: var(--gray);
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--crimson);
+  }
+
+  .group-note { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 20px; }
+  .group-note code {
+    padding: 1px 5px;
+    background: var(--tint);
+    border-radius: 3px;
+    color: var(--gray);
+    font-size: 13px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+    gap: 10px;
+    padding: 0;
+    margin: 16px 0 0;
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 116px;
+    padding: 18px 10px 14px;
+    background: var(--white);
+    color: var(--gray);
+    font-family: var(--font);
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .card:hover { background: var(--tint); border-color: var(--crimson); }
+  .card:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
+  .card.copied {
+    background: var(--wash);
+    border-color: var(--crimson);
+    border-width: 2px;
+    padding: 17px 9px 13px;
+  }
+
+  /* Sized on the wrapper so this works whether the kit is set to webfont
+     technology (an <i> with a font glyph) or SVG technology (FA swaps the <i>
+     for an inline <svg> sized in em). */
+  .glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--gray);
+  }
+  .glyph svg { height: 30px; }
+  .card:hover .glyph, .card.copied .glyph { color: var(--crimson); }
+
+  .name { font-size: 14px; line-height: 19px; font-weight: 500; word-break: break-word; }
+  .style { color: var(--muted); font-size: 13px; line-height: 18px; }
+
+  /* Messages -------------------------------------------------------------- */
+
+  .notice {
+    max-width: 620px;
+    margin-top: 32px;
+    padding: 16px 18px;
+    background: var(--tint);
+    border-left: 4px solid var(--crimson);
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .notice p { margin: 0 0 10px; }
+  .notice p:last-child { margin-bottom: 0; }
+  .notice code {
+    padding: 2px 5px;
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  .guidance {
+    max-width: 680px;
+    margin: 52px 0 0;
+    padding: 18px 20px;
+    background: var(--tint);
+    border-left: 4px solid var(--crimson);
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .guidance h2 { margin: 0 0 10px; font-size: 16px; line-height: 24px; font-weight: 600; }
+  .guidance p { margin: 0 0 10px; }
+  .guidance p:last-child { margin-bottom: 0; }
+  .guidance code {
+    padding: 2px 5px;
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  /* Offscreen probe used to confirm the kit script actually rendered. */
+  .probe {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    font-size: 16px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Font Awesome Kit Icons</h1>
+    <p class="lede">
+      Every icon in the shared WSU kit. Select one to copy the tag, then paste it into your markup.
+      If you need an icon that is not here, request it and it will appear on this page within a day
+      of being added to the kit.
+    </p>
+    <p class="meta" id="meta">Loading the icon list.</p>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="field">
+        <label for="search">Search icons</label>
+        <input type="search" class="search" id="search" placeholder="Name or alias, such as house or trash">
+      </div>
+
+      <div class="row" id="styles" role="group" aria-label="Filter by style"></div>
+
+      <div class="row" id="sorts" role="group" aria-label="Sort order">
+        <span class="row-label">Sort</span>
+        <button type="button" class="chip" data-sort="style" aria-pressed="true">Grouped by style</button>
+        <button type="button" class="chip" data-sort="name" aria-pressed="false">A to Z</button>
+      </div>
+
+      <div class="row" id="modes" role="group" aria-label="What selecting an icon copies">
+        <span class="row-label">Copy as</span>
+        <button type="button" class="chip" data-mode="tag" aria-pressed="true">HTML tag</button>
+        <button type="button" class="chip" data-mode="classes" aria-pressed="false">Classes only</button>
+        <button type="button" class="chip" data-mode="unicode" aria-pressed="false">CSS unicode</button>
+      </div>
+
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+
+    <div class="notice" id="notice" hidden></div>
+    <div id="results"></div>
+  </main>
+
+  <aside class="guidance">
+    <h2>Before you paste</h2>
+    <p>
+      Your page needs the WSU kit script loaded for these to render. If you are working in a WSU
+      Web Design System site, it is already there.
+    </p>
+    <p>
+      If the icon is decorative and the text beside it already says what the control does, keep the
+      <code>aria-hidden="true"</code> that comes with the copied tag so screen readers skip it.
+    </p>
+    <p>
+      If the icon is the only thing identifying a button or link, give that control an accessible
+      name with <code>aria-label</code>. An unlabeled icon-only control fails WCAG 4.1.2.
+    </p>
+    <p>
+      Icons that carry meaning need 3:1 contrast against their background under WCAG 1.4.11. WSU
+      crimson and WSU gray both clear that on white. Lighter grays usually do not.
+    </p>
+  </aside>
+
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var PREFIXES = {
+    fak:   { label: 'WSU Custom',            css: 'fa-kit',                      order: 0 },
+    fakd:  { label: 'WSU Custom Duotone',    css: 'fa-kit-duotone',              order: 1 },
+    fas:   { label: 'Solid',                 css: 'fa-solid',                    order: 10 },
+    far:   { label: 'Regular (outline)',     css: 'fa-regular',                  order: 11 },
+    fal:   { label: 'Light (outline)',       css: 'fa-light',                    order: 12 },
+    fat:   { label: 'Thin (outline)',        css: 'fa-thin',                     order: 13 },
+    fad:   { label: 'Duotone Solid',         css: 'fa-duotone fa-solid',         order: 20 },
+    fadr:  { label: 'Duotone Regular',       css: 'fa-duotone fa-regular',       order: 21 },
+    fadl:  { label: 'Duotone Light',         css: 'fa-duotone fa-light',         order: 22 },
+    fadt:  { label: 'Duotone Thin',          css: 'fa-duotone fa-thin',          order: 23 },
+    fass:  { label: 'Sharp Solid',           css: 'fa-sharp fa-solid',           order: 30 },
+    fasr:  { label: 'Sharp Regular',         css: 'fa-sharp fa-regular',         order: 31 },
+    fasl:  { label: 'Sharp Light',           css: 'fa-sharp fa-light',           order: 32 },
+    fast:  { label: 'Sharp Thin',            css: 'fa-sharp fa-thin',            order: 33 },
+    fasds: { label: 'Sharp Duotone Solid',   css: 'fa-sharp-duotone fa-solid',   order: 40 },
+    fasdr: { label: 'Sharp Duotone Regular', css: 'fa-sharp-duotone fa-regular', order: 41 },
+    fasdl: { label: 'Sharp Duotone Light',   css: 'fa-sharp-duotone fa-light',   order: 42 },
+    fasdt: { label: 'Sharp Duotone Thin',    css: 'fa-sharp-duotone fa-thin',    order: 43 },
+    fab:   { label: 'Brands',                css: 'fa-brands',                   order: 50 }
+  };
+
+  var MODE_LABELS = { tag: 'HTML tag', classes: 'classes', unicode: 'CSS unicode' };
+
+  function info(prefix) {
+    return PREFIXES[prefix] || { label: prefix, css: 'fa-' + prefix, order: 900 };
+  }
+
+  var state = { all: [], results: [], prefix: 'all', query: '', mode: 'tag', sort: 'style' };
+
+  var el = {
+    meta:    document.getElementById('meta'),
+    search:  document.getElementById('search'),
+    styles:  document.getElementById('styles'),
+    sorts:   document.getElementById('sorts'),
+    modes:   document.getElementById('modes'),
+    count:   document.getElementById('count'),
+    results: document.getElementById('results'),
+    notice:  document.getElementById('notice'),
+    live:    document.getElementById('live')
+  };
+
+  function escapeText(value) {
+    return String(value).replace(/[&<>"]/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
+  }
+
+  function classesFor(icon) {
+    return info(icon.p).css + ' fa-' + icon.n;
+  }
+
+  function tagFor(icon) {
+    return '<i class="' + classesFor(icon) + '" aria-hidden="true"></i>';
+  }
+
+  function snippet(icon) {
+    if (state.mode === 'classes') return classesFor(icon);
+    if (state.mode === 'unicode') return 'content: "\\' + icon.u + '";';
+    return tagFor(icon);
+  }
+
+  function showNotice(html) {
+    el.notice.hidden = false;
+    el.notice.innerHTML = html;
+  }
+
+  /* Kit loading ----------------------------------------------------------- */
+
+  function loadKit(kitCode) {
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.src = 'https://kit.fontawesome.com/' + kitCode + '.js';
+      script.crossOrigin = 'anonymous';
+      script.onload = resolve;
+      script.onerror = function () { reject(new Error('kit script failed to load')); };
+      document.head.appendChild(script);
+    });
+  }
+
+  // The kit CDN can return a 200 with a script that renders nothing when the
+  // requesting host is not on the kit's Allowed Domains list, so onerror alone
+  // is not a reliable check. Render a probe icon and measure it instead.
+  function verifyRendering(sample) {
+    var probe = document.createElement('span');
+    probe.className = 'probe';
+    probe.setAttribute('aria-hidden', 'true');
+    probe.innerHTML = tagFor(sample);
+    document.body.appendChild(probe);
+
+    window.setTimeout(function () {
+      var node = probe.firstElementChild;
+      var rendered = !!node && (node.tagName.toLowerCase() === 'svg' || node.getBoundingClientRect().width > 0);
+      probe.remove();
+
+      if (!rendered) {
+        showNotice(
+          '<p><strong>The icon list loaded, but the icons are not rendering.</strong></p>' +
+          '<p>This almost always means the host serving this page is missing from the kit\'s ' +
+          '<strong>Allowed Domains</strong> list in the Font Awesome account. Add <code>' +
+          escapeText(window.location.hostname) + '</code> there and reload.</p>' +
+          '<p>Names, styles, and copy buttons all still work in the meantime.</p>'
+        );
+      }
+    }, 900);
+  }
+
+  /* Filtering and rendering ----------------------------------------------- */
+
+  function filter() {
+    var q = state.query.trim().toLowerCase();
+
+    state.results = state.all.filter(function (icon) {
+      if (state.prefix !== 'all' && icon.p !== state.prefix) return false;
+      if (!q) return true;
+      if (icon.n.indexOf(q) !== -1) return true;
+      if (info(icon.p).label.toLowerCase().indexOf(q) !== -1) return true;
+      for (var i = 0; i < icon.a.length; i++) {
+        if (icon.a[i].indexOf(q) !== -1) return true;
+      }
+      return false;
+    });
+
+    render();
+  }
+
+  function cardMarkup(icon, index) {
+    return '' +
+      '<li><button type="button" class="card" data-index="' + index + '">' +
+        '<span class="sr-only">Copy </span>' +
+        '<span class="glyph">' + tagFor(icon) + '</span>' +
+        '<span class="name">' + escapeText(icon.n) + '</span>' +
+        '<span class="style">' + escapeText(info(icon.p).label) + '</span>' +
+      '</button></li>';
+  }
+
+  function byOrder(a, b) {
+    return info(a).order - info(b).order || info(a).label.localeCompare(info(b).label);
+  }
+
+  function render() {
+    var total = state.results.length;
+
+    el.count.textContent =
+      total + (total === 1 ? ' icon' : ' icons') +
+      (state.query ? ' matching "' + state.query + '"' : '') +
+      (state.prefix !== 'all' ? ' in ' + info(state.prefix).label : '');
+
+    if (total === 0) {
+      el.results.innerHTML =
+        '<p class="notice">Nothing in the kit matches that. Try a shorter term, then request the ' +
+        'icon if it really is missing.</p>';
+      return;
+    }
+
+    // Index every card against state.results so clicks resolve correctly
+    // regardless of how the list is grouped.
+    var indexed = state.results.map(function (icon, index) {
+      return { icon: icon, index: index };
+    });
+
+    if (state.sort === 'name') {
+      el.results.innerHTML =
+        '<div class="group"><ul class="grid">' +
+        indexed.map(function (entry) { return cardMarkup(entry.icon, entry.index); }).join('') +
+        '</ul></div>';
+      return;
+    }
+
+    var buckets = {};
+    indexed.forEach(function (entry) {
+      (buckets[entry.icon.p] = buckets[entry.icon.p] || []).push(entry);
+    });
+
+    el.results.innerHTML = Object.keys(buckets).sort(byOrder).map(function (prefix) {
+      var entries = buckets[prefix];
+      var meta = info(prefix);
+
+      return '' +
+        '<section class="group">' +
+          '<h2>' + escapeText(meta.label) + '</h2>' +
+          '<p class="group-note">' + entries.length + (entries.length === 1 ? ' icon. Classes: ' : ' icons. Classes: ') +
+            '<code>' + escapeText(meta.css) + ' fa-[name]</code></p>' +
+          '<ul class="grid">' + entries.map(function (entry) {
+            return cardMarkup(entry.icon, entry.index);
+          }).join('') + '</ul>' +
+        '</section>';
+    }).join('');
+  }
+
+  /* Events ---------------------------------------------------------------- */
+
+  el.results.addEventListener('click', function (event) {
+    var card = event.target.closest('.card');
+    if (!card) return;
+
+    var icon = state.results[Number(card.dataset.index)];
+    if (!icon) return;
+
+    copy(snippet(icon)).then(function () {
+      var previous = el.results.querySelector('.card.copied');
+      if (previous) previous.classList.remove('copied');
+      card.classList.add('copied');
+      el.live.textContent = 'Copied ' + MODE_LABELS[state.mode] + ' for ' + icon.n + ', ' + info(icon.p).label + '.';
+    }).catch(function () {
+      el.live.textContent = 'Could not copy. Your browser blocked clipboard access.';
+    });
+  });
+
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    var field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.left = '-9999px';
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand('copy');
+    document.body.removeChild(field);
+    return Promise.resolve();
+  }
+
+  el.search.addEventListener('input', function (event) {
+    state.query = event.target.value;
+    filter();
+  });
+
+  function wireToggle(container, attribute, onChange) {
+    container.addEventListener('click', function (event) {
+      var chip = event.target.closest('[data-' + attribute + ']');
+      if (!chip) return;
+
+      var chips = container.querySelectorAll('[data-' + attribute + ']');
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].setAttribute('aria-pressed', String(chips[i] === chip));
+      }
+      onChange(chip.dataset[attribute]);
+    });
+  }
+
+  wireToggle(el.modes, 'mode', function (value) {
+    state.mode = value;
+    el.live.textContent = 'Selecting an icon now copies the ' + MODE_LABELS[value] + '.';
+  });
+
+  wireToggle(el.sorts, 'sort', function (value) {
+    state.sort = value;
+    render();
+  });
+
+  function buildStyleFilters(byPrefix) {
+    var prefixes = Object.keys(byPrefix).sort(byOrder);
+    var total = prefixes.reduce(function (sum, prefix) { return sum + byPrefix[prefix]; }, 0);
+
+    var html = '<span class="row-label">Style</span>' +
+      '<button type="button" class="chip" data-prefix="all" aria-pressed="true">All (' + total + ')</button>';
+
+    prefixes.forEach(function (prefix) {
+      html += '<button type="button" class="chip" data-prefix="' + prefix + '" aria-pressed="false">' +
+        escapeText(info(prefix).label) + ' (' + byPrefix[prefix] + ')</button>';
+    });
+
+    el.styles.innerHTML = html;
+    wireToggle(el.styles, 'prefix', function (value) {
+      state.prefix = value;
+      filter();
+    });
+  }
+
+  /* Boot ------------------------------------------------------------------ */
+
+  fetch('icons.json', { cache: 'no-cache' })
+    .then(function (response) {
+      if (!response.ok) throw new Error('icons.json returned ' + response.status);
+      return response.json();
+    })
+    .then(function (data) {
+      state.all = data.icons;
+
+      var when = new Date(data.generated);
+      el.meta.textContent =
+        data.count + ' icons. Last checked ' +
+        when.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) +
+        '. Kit package version ' + data.kitVersion + '.';
+
+      buildStyleFilters(data.byPrefix);
+      filter();
+
+      return loadKit(data.kitCode).then(function () {
+        verifyRendering(state.all[0]);
+      });
+    })
+    .catch(function (error) {
+      if (state.all.length > 0) {
+        showNotice(
+          '<p><strong>The kit script did not load, so the icons are not rendering.</strong></p>' +
+          '<p>Check that <code>' + escapeText(window.location.hostname) + '</code> is on the kit\'s ' +
+          'Allowed Domains list. Names, styles, and copy buttons still work.</p>'
+        );
+        return;
+      }
+
+      el.meta.textContent = 'Could not load the icon list.';
+      showNotice(
+        '<p>icons.json failed to load, so the daily build may have broken. Check the most recent ' +
+        'Actions run in this repository.</p><p>' + escapeText(error.message) + '</p>'
+      );
+    });
+})();
+</script>
+</body>
+</html>
