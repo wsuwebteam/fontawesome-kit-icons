@@ -1,0 +1,65 @@
+# .github/workflows/pages.yml
+#
+# Regenerates site/icons.json from the Font Awesome kit and publishes site/ to
+# GitHub Pages. Runs daily, on push to main, and on demand.
+#
+# Required repo settings:
+#   Settings > Secrets and variables > Actions > Secrets:   FONTAWESOME_PACKAGE_TOKEN
+#   Settings > Secrets and variables > Actions > Variables: FA_KIT_CODE
+#   Settings > Pages > Source: GitHub Actions
+
+name: Publish icon page
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 13:00 UTC. Roughly 06:00 Pacific in summer, 05:00 in winter.
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: icon-page
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FA_KIT_CODE: ${{ vars.FA_KIT_CODE }}
+      FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install the kit package
+        # Always @latest so icons added since the last run get picked up.
+        run: npm install --no-save "@awesome.me/kit-${FA_KIT_CODE}@latest"
+
+      - name: Generate icons.json
+        run: node scripts/build-icons.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
