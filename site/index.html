@@ -1,24 +1,6 @@
 <!doctype html>
 <!--
   site/index.html
-
-  Font Awesome kit reference, styled to WSU brand.
-  Reads icons.json, regenerated daily by GitHub Actions. No build step.
-
-  Icons render through the WSU kit script on the Font Awesome CDN, loaded from
-  the kit code in icons.json. No icon artwork is stored in this repository.
-  The kit's Allowed Domains list must include the host this page is served from,
-  or nothing will render.
-
-  Color and contrast notes (ratios measured against the background each sits on):
-    Crimson  #A60F2D on white  7.70:1   passes AA and AAA for text
-    Gray     #4D4D4D on white  8.45:1   passes AA and AAA for text
-    Muted    #6B6B6B on white  5.33:1   passes AA for text
-    Border   #8E8E8E on white  3.28:1   passes AA non-text (1.4.11), used on every control
-    Divider  #D4D4D4                    decorative only, never the sole marker of a control
-
-  Per WSU web guidance, crimson does the structural work (borders, focus, active
-  controls) rather than coloring heading text. Headings are gray.
 -->
 <html lang="en">
 <head>
@@ -33,26 +15,30 @@
 
 <style>
   :root {
-    --crimson: #A60F2D;
-    --crimson-dark: #7E0B22;
-    --gray: #4D4D4D;
-    --muted: #6B6B6B;
-    --white: #FFFFFF;
-    --tint: #F2F2F2;
-    --wash: #FBF0F2;
-    --border: #8E8E8E;
-    --divider: #D4D4D4;
+    --crimson: #a60f2d;
+    --crimson-dark: #680222;
+    --gray: #4d4d4d;
+    --light-gray: #ccc9c8;
+    --warm-gray: #efebe5;
+    --white: #ffffff;
 
     --font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+    /* Height of the sticky search bar. Cards use it as scroll-margin so a
+       keyboard-focused card is never parked underneath it. */
+    --bar: 70px;
   }
 
   * { box-sizing: border-box; }
 
-  html { -webkit-text-size-adjust: 100%; }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
   body {
     margin: 0;
-    padding: 40px 24px 72px;
+    padding: 32px 20px 64px;
     background: var(--white);
     color: var(--gray);
     font-family: var(--font);
@@ -76,106 +62,123 @@
 
   /* Header ---------------------------------------------------------------- */
 
-  .masthead { padding-bottom: 20px; border-bottom: 4px solid var(--crimson); }
+  .masthead { padding-bottom: 18px; border-bottom: 4px solid var(--crimson); }
 
   h1 {
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     color: var(--gray);
-    font-size: 30px;
-    line-height: 38px;
+    font-size: 28px;
+    line-height: 36px;
     font-weight: 700;
     letter-spacing: -0.2px;
   }
 
-  .lede { max-width: 640px; margin: 0; font-size: 16px; line-height: 26px; }
+  .lede { max-width: 62ch; margin: 0; font-size: 16px; line-height: 26px; }
 
-  .meta { margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 20px; }
+  .meta { margin: 12px 0 0; font-size: 14px; line-height: 21px; }
 
-  /* Toolbar --------------------------------------------------------------- */
+  /* Sticky search bar ----------------------------------------------------- */
 
-  .toolbar {
+  .searchbar {
     position: sticky;
     top: 0;
-    z-index: 2;
-    padding: 18px 0 16px;
+    z-index: 3;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 0;
     background: var(--white);
-    border-bottom: 1px solid var(--divider);
+    border-bottom: 1px solid var(--light-gray);
   }
 
-  .field { max-width: 440px; }
-
-  .field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+  .searchbar .field { flex: 1 1 auto; min-width: 0; }
 
   .search {
+    display: block;
     width: 100%;
-    padding: 11px 13px;
+    min-height: 44px;
+    padding: 10px 13px;
     background: var(--white);
     color: var(--gray);
     font-family: var(--font);
     font-size: 16px;
     line-height: 24px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--gray);
     border-radius: 3px;
   }
-  .search::placeholder { color: var(--muted); }
-  .search:focus-visible { outline: 3px solid var(--crimson); outline-offset: 1px; }
+  .search::placeholder { color: var(--gray); opacity: 0.75; }
+  .search:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
 
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
-  .row-label { margin-right: 2px; font-size: 14px; font-weight: 600; }
+  .tally {
+    flex: 0 0 auto;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
 
-  .chip {
-    min-height: 32px;
-    padding: 6px 13px;
+  /* Filters, not sticky --------------------------------------------------- */
+
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 12px 16px;
+    margin: 18px 0 0;
+  }
+
+  .control label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+  }
+
+  .control select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 11px;
     background: var(--white);
     color: var(--gray);
     font-family: var(--font);
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 500;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    cursor: pointer;
+    font-size: 16px;
+    line-height: 24px;
+    border: 1px solid var(--gray);
+    border-radius: 3px;
   }
-  .chip:hover { background: var(--tint); border-color: var(--gray); }
-  .chip[aria-pressed="true"] {
-    background: var(--crimson);
-    color: var(--white);
-    border-color: var(--crimson);
-  }
-  .chip[aria-pressed="true"]:hover { background: var(--crimson-dark); border-color: var(--crimson-dark); }
-  .chip:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
-
-  .count { margin: 16px 0 0; font-size: 14px; line-height: 20px; }
+  .control select:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
 
   /* Icon groups ----------------------------------------------------------- */
 
-  .group { margin-top: 36px; }
+  .group { margin-top: 32px; }
 
   .group h2 {
     margin: 0;
-    padding-bottom: 8px;
+    padding-bottom: 7px;
+    scroll-margin-top: calc(var(--bar) + 12px);
     color: var(--gray);
-    font-size: 18px;
-    line-height: 26px;
+    font-size: 17px;
+    line-height: 25px;
     font-weight: 600;
     border-bottom: 2px solid var(--crimson);
   }
 
-  .group-note { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 20px; }
+  .group-note { margin: 7px 0 0; font-size: 13px; line-height: 20px; }
   .group-note code {
     padding: 1px 5px;
-    background: var(--tint);
+    background: var(--warm-gray);
     border-radius: 3px;
-    color: var(--gray);
     font-size: 13px;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
     gap: 10px;
     padding: 0;
-    margin: 16px 0 0;
+    margin: 14px 0 0;
     list-style: none;
   }
 
@@ -183,95 +186,155 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     width: 100%;
-    min-height: 116px;
-    padding: 18px 10px 14px;
+    min-height: 112px;
+    padding: 16px 8px 12px;
+    scroll-margin-top: calc(var(--bar) + 12px);
     background: var(--white);
     color: var(--gray);
     font-family: var(--font);
     text-align: center;
-    border: 1px solid var(--border);
+    border: 1px solid var(--light-gray);
     border-radius: 3px;
     cursor: pointer;
   }
-  .card:hover { background: var(--tint); border-color: var(--crimson); }
+  .card:hover { background: var(--warm-gray); border-color: var(--crimson); }
   .card:focus-visible { outline: 3px solid var(--crimson); outline-offset: 2px; }
+
+  /* Selected state is carried by the border weight, the background, and the
+     word "Copied", never by color alone. Warm gray rather than a crimson tint,
+     per the brand rule against partial-opacity crimson. */
   .card.copied {
-    background: var(--wash);
-    border-color: var(--crimson);
-    border-width: 2px;
-    padding: 17px 9px 13px;
+    background: var(--warm-gray);
+    border: 2px solid var(--crimson);
+    padding: 15px 7px 11px;
   }
 
-  /* Sized on the wrapper so this works whether the kit is set to webfont
-     technology (an <i> with a font glyph) or SVG technology (FA swaps the <i>
-     for an inline <svg> sized in em). */
+  /* Sized on the wrapper so this works whether the kit uses webfont technology
+     (the <i> keeps its glyph) or SVG technology (Font Awesome swaps in an
+     inline <svg> sized in em). */
   .glyph {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
-    font-size: 30px;
+    height: 30px;
+    font-size: 28px;
     line-height: 1;
     color: var(--gray);
   }
-  .glyph svg { height: 30px; }
+  .glyph svg { height: 28px; }
   .card:hover .glyph, .card.copied .glyph { color: var(--crimson); }
 
-  .name { font-size: 14px; line-height: 19px; font-weight: 500; word-break: break-word; }
-  .style { color: var(--muted); font-size: 13px; line-height: 18px; }
+  .name { font-size: 13px; line-height: 18px; font-weight: 500; overflow-wrap: anywhere; }
+  .style { font-size: 12px; line-height: 17px; }
+  .card.copied .style { color: var(--crimson); font-weight: 600; }
 
-  /* Messages -------------------------------------------------------------- */
+  /* Panels ---------------------------------------------------------------- */
 
-  .notice {
-    max-width: 620px;
-    margin-top: 32px;
+  .panel {
+    max-width: 68ch;
+    margin-top: 28px;
     padding: 16px 18px;
-    background: var(--tint);
+    background: var(--warm-gray);
     border-left: 4px solid var(--crimson);
     font-size: 15px;
     line-height: 24px;
   }
-  .notice p { margin: 0 0 10px; }
-  .notice p:last-child { margin-bottom: 0; }
-  .notice code {
+  .panel h2 { margin: 0 0 8px; font-size: 16px; line-height: 24px; font-weight: 600; }
+  .panel p { margin: 0 0 10px; }
+  .panel p:last-child { margin-bottom: 0; }
+  .panel code {
     padding: 2px 5px;
     background: var(--white);
-    border: 1px solid var(--divider);
+    border: 1px solid var(--light-gray);
     border-radius: 3px;
     font-size: 14px;
   }
 
-  .guidance {
-    max-width: 680px;
-    margin: 52px 0 0;
-    padding: 18px 20px;
-    background: var(--tint);
-    border-left: 4px solid var(--crimson);
-    font-size: 15px;
-    line-height: 24px;
-  }
-  .guidance h2 { margin: 0 0 10px; font-size: 16px; line-height: 24px; font-weight: 600; }
-  .guidance p { margin: 0 0 10px; }
-  .guidance p:last-child { margin-bottom: 0; }
-  .guidance code {
-    padding: 2px 5px;
-    background: var(--white);
-    border: 1px solid var(--divider);
+  .guidance { margin-top: 48px; }
+
+  /* Copy confirmation toast ----------------------------------------------- */
+
+  /* Visual only. It carries aria-hidden because the sr-only live region at the
+     bottom of the page already announces every copy, and a second live region
+     would make screen readers say it twice. It holds no focusable elements, so
+     nothing is focusable-but-hidden. */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: calc(100% - 32px);
+    max-width: 520px;
+    padding: 14px 16px;
+    transform: translateX(-50%);
+    /* WSU guidance: for dark backgrounds use primary dark gray, not black. */
+    background: var(--gray);
+    color: var(--white);
+    border-left: 5px solid var(--crimson);
     border-radius: 3px;
+    box-shadow: 0 4px 18px rgba(77, 77, 77, 0.38);
+  }
+  .toast[hidden] { display: none; }
+
+  .toast-check {
+    flex: 0 0 auto;
+    font-size: 19px;
+    line-height: 21px;
+    font-weight: 700;
+  }
+
+  .toast-body { min-width: 0; }
+
+  .toast-title {
+    margin: 0 0 4px;
     font-size: 14px;
+    line-height: 21px;
+    font-weight: 600;
+  }
+
+  .toast-snippet {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 19px;
+    overflow-wrap: anywhere;
   }
 
   /* Offscreen probe used to confirm the kit script actually rendered. */
-  .probe {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    font-size: 16px;
+  .probe { position: absolute; left: -9999px; top: 0; font-size: 16px; }
+
+  /* Small screens --------------------------------------------------------- */
+
+  @media (max-width: 560px) {
+    :root { --bar: 66px; }
+
+    body { padding: 24px 16px 56px; }
+
+    h1 { font-size: 24px; line-height: 32px; }
+
+    .searchbar { gap: 10px; padding: 11px 0; }
+    .tally { font-size: 13px; }
+
+    .grid { grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)); gap: 8px; }
+
+    .card { min-height: 100px; padding: 13px 6px 10px; gap: 7px; }
+    .glyph { height: 26px; font-size: 24px; }
+    .glyph svg { height: 24px; }
+    .name { font-size: 12px; line-height: 16px; }
+    .style { font-size: 11px; line-height: 15px; }
+
+    .toast { bottom: 12px; width: calc(100% - 24px); padding: 12px 14px; gap: 10px; }
+    .toast-title { font-size: 13px; line-height: 20px; }
+    .toast-snippet { font-size: 12px; line-height: 18px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
     * { transition: none !important; animation: none !important; }
   }
 </style>
@@ -290,35 +353,43 @@
   </header>
 
   <main>
-    <div class="toolbar">
+    <div class="searchbar">
       <div class="field">
-        <label for="search">Search icons</label>
-        <input type="search" class="search" id="search" placeholder="Name or alias, such as house or trash">
+        <label class="sr-only" for="search">Search icons by name or alias</label>
+        <input type="search" class="search" id="search" placeholder="Search icons" autocomplete="off">
       </div>
-
-      <div class="row" id="styles" role="group" aria-label="Filter by style"></div>
-
-      <div class="row" id="sorts" role="group" aria-label="Sort order">
-        <span class="row-label">Sort</span>
-        <button type="button" class="chip" data-sort="style" aria-pressed="true">Grouped by style</button>
-        <button type="button" class="chip" data-sort="name" aria-pressed="false">A to Z</button>
-      </div>
-
-      <div class="row" id="modes" role="group" aria-label="What selecting an icon copies">
-        <span class="row-label">Copy as</span>
-        <button type="button" class="chip" data-mode="tag" aria-pressed="true">HTML tag</button>
-        <button type="button" class="chip" data-mode="classes" aria-pressed="false">Classes only</button>
-        <button type="button" class="chip" data-mode="unicode" aria-pressed="false">CSS unicode</button>
-      </div>
-
-      <p class="count" id="count" aria-live="polite"></p>
+      <p class="tally" id="tally"></p>
     </div>
 
-    <div class="notice" id="notice" hidden></div>
+    <div class="controls">
+      <div class="control">
+        <label for="style-filter">Style</label>
+        <select id="style-filter"><option value="all">All styles</option></select>
+      </div>
+
+      <div class="control">
+        <label for="sort-order">Sort</label>
+        <select id="sort-order">
+          <option value="style">Grouped by style</option>
+          <option value="name">A to Z</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="copy-mode">Copy as</label>
+        <select id="copy-mode">
+          <option value="tag">HTML tag</option>
+          <option value="classes">Classes only</option>
+          <option value="unicode">CSS unicode</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panel" id="notice" hidden></div>
     <div id="results"></div>
   </main>
 
-  <aside class="guidance">
+  <aside class="panel guidance">
     <h2>Before you paste</h2>
     <p>
       Your page needs the WSU kit script loaded for these to render. If you are working in a WSU
@@ -333,13 +404,21 @@
       name with <code>aria-label</code>. An unlabeled icon-only control fails WCAG 4.1.2.
     </p>
     <p>
-      Icons that carry meaning need 3:1 contrast against their background under WCAG 1.4.11. WSU
-      crimson and WSU gray both clear that on white. Lighter grays usually do not.
+      Icons that carry meaning need 3:1 contrast against their background. WSU crimson and dark gray
+      both clear that on white. Light gray does not, at 1.65:1.
     </p>
   </aside>
 
   <p class="sr-only" id="live" role="status" aria-live="polite"></p>
 
+</div>
+
+<div class="toast" id="toast" aria-hidden="true" hidden>
+  <span class="toast-check">&#10003;</span>
+  <div class="toast-body">
+    <p class="toast-title" id="toast-title"></p>
+    <code class="toast-snippet" id="toast-snippet"></code>
+  </div>
 </div>
 
 <script>
@@ -379,13 +458,16 @@
   var el = {
     meta:    document.getElementById('meta'),
     search:  document.getElementById('search'),
-    styles:  document.getElementById('styles'),
-    sorts:   document.getElementById('sorts'),
-    modes:   document.getElementById('modes'),
-    count:   document.getElementById('count'),
+    style:   document.getElementById('style-filter'),
+    sort:    document.getElementById('sort-order'),
+    mode:    document.getElementById('copy-mode'),
+    tally:   document.getElementById('tally'),
     results: document.getElementById('results'),
     notice:  document.getElementById('notice'),
-    live:    document.getElementById('live')
+    live:    document.getElementById('live'),
+    toast:   document.getElementById('toast'),
+    toastTitle:   document.getElementById('toast-title'),
+    toastSnippet: document.getElementById('toast-snippet')
   };
 
   function escapeText(value) {
@@ -394,19 +476,16 @@
     });
   }
 
-  function classesFor(icon) {
-    return info(icon.p).css + ' fa-' + icon.n;
-  }
-
-  function tagFor(icon) {
-    return '<i class="' + classesFor(icon) + '" aria-hidden="true"></i>';
-  }
+  function classesFor(icon) { return info(icon.p).css + ' fa-' + icon.n; }
+  function tagFor(icon) { return '<i class="' + classesFor(icon) + '" aria-hidden="true"></i>'; }
 
   function snippet(icon) {
     if (state.mode === 'classes') return classesFor(icon);
     if (state.mode === 'unicode') return 'content: "\\' + icon.u + '";';
     return tagFor(icon);
   }
+
+  function announce(message) { el.live.textContent = message; }
 
   function showNotice(html) {
     el.notice.hidden = false;
@@ -427,8 +506,8 @@
   }
 
   // The kit CDN can return a 200 with a script that renders nothing when the
-  // requesting host is not on the kit's Allowed Domains list, so onerror alone
-  // is not a reliable check. Render a probe icon and measure it instead.
+  // requesting host is missing from the kit's Allowed Domains list, so onerror
+  // alone is not a reliable check. Render a probe icon and measure it instead.
   function verifyRendering(sample) {
     var probe = document.createElement('span');
     probe.className = 'probe';
@@ -438,10 +517,10 @@
 
     window.setTimeout(function () {
       var node = probe.firstElementChild;
-      var rendered = !!node && (node.tagName.toLowerCase() === 'svg' || node.getBoundingClientRect().width > 0);
+      var ok = !!node && (node.tagName.toLowerCase() === 'svg' || node.getBoundingClientRect().width > 0);
       probe.remove();
 
-      if (!rendered) {
+      if (!ok) {
         showNotice(
           '<p><strong>The icon list loaded, but the icons are not rendering.</strong></p>' +
           '<p>This almost always means the host serving this page is missing from the kit\'s ' +
@@ -449,6 +528,7 @@
           escapeText(window.location.hostname) + '</code> there and reload.</p>' +
           '<p>Names, styles, and copy buttons all still work in the meantime.</p>'
         );
+        announce('Warning. The icons are not rendering. See the message above the icon list.');
       }
     }, 900);
   }
@@ -486,18 +566,27 @@
     return info(a).order - info(b).order || info(a).label.localeCompare(info(b).label);
   }
 
+  function describe() {
+    var total = state.results.length;
+    var words = total + (total === 1 ? ' icon' : ' icons');
+    if (state.query) words += ' matching ' + state.query;
+    if (state.prefix !== 'all') words += ' in ' + info(state.prefix).label;
+    return words;
+  }
+
   function render() {
     var total = state.results.length;
 
-    el.count.textContent =
-      total + (total === 1 ? ' icon' : ' icons') +
-      (state.query ? ' matching "' + state.query + '"' : '') +
-      (state.prefix !== 'all' ? ' in ' + info(state.prefix).label : '');
+    // Kept short so it never wraps the sticky bar at 320px. The full sentence
+    // goes to the live region for screen readers.
+    el.tally.textContent = state.all.length && total < state.all.length
+      ? total + ' of ' + state.all.length
+      : total + (total === 1 ? ' icon' : ' icons');
 
     if (total === 0) {
       el.results.innerHTML =
-        '<p class="notice">Nothing in the kit matches that. Try a shorter term, then request the ' +
-        'icon if it really is missing.</p>';
+        '<div class="panel"><p>Nothing in the kit matches that. Try a shorter term, then ' +
+        'request the icon if it really is missing.</p></div>';
       return;
     }
 
@@ -510,14 +599,14 @@
     if (state.sort === 'name') {
       el.results.innerHTML =
         '<div class="group"><ul class="grid">' +
-        indexed.map(function (entry) { return cardMarkup(entry.icon, entry.index); }).join('') +
+        indexed.map(function (e) { return cardMarkup(e.icon, e.index); }).join('') +
         '</ul></div>';
       return;
     }
 
     var buckets = {};
-    indexed.forEach(function (entry) {
-      (buckets[entry.icon.p] = buckets[entry.icon.p] || []).push(entry);
+    indexed.forEach(function (e) {
+      (buckets[e.icon.p] = buckets[e.icon.p] || []).push(e);
     });
 
     el.results.innerHTML = Object.keys(buckets).sort(byOrder).map(function (prefix) {
@@ -527,33 +616,17 @@
       return '' +
         '<section class="group">' +
           '<h2>' + escapeText(meta.label) + '</h2>' +
-          '<p class="group-note">' + entries.length + (entries.length === 1 ? ' icon. Classes: ' : ' icons. Classes: ') +
+          '<p class="group-note">' + entries.length +
+            (entries.length === 1 ? ' icon. Classes: ' : ' icons. Classes: ') +
             '<code>' + escapeText(meta.css) + ' fa-[name]</code></p>' +
-          '<ul class="grid">' + entries.map(function (entry) {
-            return cardMarkup(entry.icon, entry.index);
+          '<ul class="grid">' + entries.map(function (e) {
+            return cardMarkup(e.icon, e.index);
           }).join('') + '</ul>' +
         '</section>';
     }).join('');
   }
 
-  /* Events ---------------------------------------------------------------- */
-
-  el.results.addEventListener('click', function (event) {
-    var card = event.target.closest('.card');
-    if (!card) return;
-
-    var icon = state.results[Number(card.dataset.index)];
-    if (!icon) return;
-
-    copy(snippet(icon)).then(function () {
-      var previous = el.results.querySelector('.card.copied');
-      if (previous) previous.classList.remove('copied');
-      card.classList.add('copied');
-      el.live.textContent = 'Copied ' + MODE_LABELS[state.mode] + ' for ' + icon.n + ', ' + info(icon.p).label + '.';
-    }).catch(function () {
-      el.live.textContent = 'Could not copy. Your browser blocked clipboard access.';
-    });
-  });
+  /* Copying --------------------------------------------------------------- */
 
   function copy(text) {
     if (navigator.clipboard && window.isSecureContext) {
@@ -571,51 +644,91 @@
     return Promise.resolve();
   }
 
+  var toastTimer = null;
+
+  function hideToastLater() {
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () { el.toast.hidden = true; }, 5000);
+  }
+
+  function showToast(icon) {
+    el.toastTitle.textContent = 'Copied ' + MODE_LABELS[state.mode] + ' for ' + icon.n;
+    el.toastSnippet.textContent = snippet(icon);
+    el.toast.hidden = false;
+    hideToastLater();
+  }
+
+  // Hovering pauses the countdown so a long snippet stays readable.
+  el.toast.addEventListener('mouseenter', function () { window.clearTimeout(toastTimer); });
+  el.toast.addEventListener('mouseleave', hideToastLater);
+
+  el.results.addEventListener('click', function (event) {
+    var card = event.target.closest('.card');
+    if (!card) return;
+
+    var icon = state.results[Number(card.dataset.index)];
+    if (!icon) return;
+
+    copy(snippet(icon)).then(function () {
+      var previous = el.results.querySelector('.card.copied');
+      if (previous) {
+        previous.classList.remove('copied');
+        var old = state.results[Number(previous.dataset.index)];
+        if (old) previous.querySelector('.style').textContent = info(old.p).label;
+      }
+
+      card.classList.add('copied');
+      card.querySelector('.style').textContent = 'Copied';
+      showToast(icon);
+      announce('Copied ' + MODE_LABELS[state.mode] + ' for ' + icon.n + ', ' + info(icon.p).label + '.');
+    }).catch(function () {
+      el.toast.hidden = true;
+      announce('Could not copy. Your browser blocked clipboard access.');
+      showNotice('<p>Your browser blocked clipboard access, so nothing was copied. ' +
+        'The tag for this icon is <code>' + escapeText(snippet(icon)) + '</code></p>');
+    });
+  });
+
+  /* Controls -------------------------------------------------------------- */
+
+  var searchTimer = null;
   el.search.addEventListener('input', function (event) {
     state.query = event.target.value;
     filter();
+
+    // Debounced so the live region announces the final result, not every
+    // keystroke, which would flood a screen reader.
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(function () { announce(describe()); }, 600);
   });
 
-  function wireToggle(container, attribute, onChange) {
-    container.addEventListener('click', function (event) {
-      var chip = event.target.closest('[data-' + attribute + ']');
-      if (!chip) return;
-
-      var chips = container.querySelectorAll('[data-' + attribute + ']');
-      for (var i = 0; i < chips.length; i++) {
-        chips[i].setAttribute('aria-pressed', String(chips[i] === chip));
-      }
-      onChange(chip.dataset[attribute]);
-    });
-  }
-
-  wireToggle(el.modes, 'mode', function (value) {
-    state.mode = value;
-    el.live.textContent = 'Selecting an icon now copies the ' + MODE_LABELS[value] + '.';
+  el.style.addEventListener('change', function (event) {
+    state.prefix = event.target.value;
+    filter();
+    announce(describe());
   });
 
-  wireToggle(el.sorts, 'sort', function (value) {
-    state.sort = value;
+  el.sort.addEventListener('change', function (event) {
+    state.sort = event.target.value;
     render();
+    announce(state.sort === 'name' ? 'Sorted A to Z.' : 'Grouped by style.');
   });
 
-  function buildStyleFilters(byPrefix) {
+  el.mode.addEventListener('change', function (event) {
+    state.mode = event.target.value;
+    announce('Selecting an icon now copies the ' + MODE_LABELS[state.mode] + '.');
+  });
+
+  function buildStyleOptions(byPrefix) {
     var prefixes = Object.keys(byPrefix).sort(byOrder);
-    var total = prefixes.reduce(function (sum, prefix) { return sum + byPrefix[prefix]; }, 0);
+    var total = prefixes.reduce(function (sum, p) { return sum + byPrefix[p]; }, 0);
 
-    var html = '<span class="row-label">Style</span>' +
-      '<button type="button" class="chip" data-prefix="all" aria-pressed="true">All (' + total + ')</button>';
-
+    var html = '<option value="all">All styles (' + total + ')</option>';
     prefixes.forEach(function (prefix) {
-      html += '<button type="button" class="chip" data-prefix="' + prefix + '" aria-pressed="false">' +
-        escapeText(info(prefix).label) + ' (' + byPrefix[prefix] + ')</button>';
+      html += '<option value="' + escapeText(prefix) + '">' +
+        escapeText(info(prefix).label) + ' (' + byPrefix[prefix] + ')</option>';
     });
-
-    el.styles.innerHTML = html;
-    wireToggle(el.styles, 'prefix', function (value) {
-      state.prefix = value;
-      filter();
-    });
+    el.style.innerHTML = html;
   }
 
   /* Boot ------------------------------------------------------------------ */
@@ -634,7 +747,7 @@
         when.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) +
         '. Kit package version ' + data.kitVersion + '.';
 
-      buildStyleFilters(data.byPrefix);
+      buildStyleOptions(data.byPrefix);
       filter();
 
       return loadKit(data.kitCode).then(function () {
