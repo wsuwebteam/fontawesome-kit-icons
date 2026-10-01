@@ -374,7 +374,27 @@
     </p>
     <p class="meta" id="meta">Loading the icon list.</p>
   </header>
-
+  
+  <aside class="panel guidance">
+      <h2>Important icon usage information</h2>
+      <p>
+        Your page needs the WSU kit script loaded for these to render. If you are working in a WSU
+        Web Design System site, it is already there.
+      </p>
+      <p>
+        If the icon is decorative and the text beside it already says what the control does, keep the
+        <code>aria-hidden="true"</code> that comes with the copied tag so screen readers skip it.
+      </p>
+      <p>
+        If the icon is the only thing identifying a button or link, give that control an accessible
+        name with <code>aria-label</code>. An unlabeled icon-only control fails WCAG 4.1.2.
+      </p>
+      <p>
+        Icons that carry meaning need 3:1 contrast against their background. WSU crimson and dark gray
+        both clear that on white. Light gray does not, at 1.65:1.
+      </p>
+  </aside>
+  
   <main>
     <div class="searchbar">
       <div class="field">
@@ -411,27 +431,7 @@
     <div class="panel" id="notice" hidden></div>
     <div id="results"></div>
   </main>
-
-  <aside class="panel guidance">
-    <h2>Before you paste</h2>
-    <p>
-      Your page needs the WSU kit script loaded for these to render. If you are working in a WSU
-      Web Design System site, it is already there.
-    </p>
-    <p>
-      If the icon is decorative and the text beside it already says what the control does, keep the
-      <code>aria-hidden="true"</code> that comes with the copied tag so screen readers skip it.
-    </p>
-    <p>
-      If the icon is the only thing identifying a button or link, give that control an accessible
-      name with <code>aria-label</code>. An unlabeled icon-only control fails WCAG 4.1.2.
-    </p>
-    <p>
-      Icons that carry meaning need 3:1 contrast against their background. WSU crimson and dark gray
-      both clear that on white. Light gray does not, at 1.65:1.
-    </p>
-  </aside>
-
+  
   <p class="sr-only" id="live" role="status" aria-live="polite"></p>
 
 </div>
